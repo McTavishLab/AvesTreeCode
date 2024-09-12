@@ -43,5 +43,5 @@ To perfom custom synth see:
 https://opentreeoflife.github.io/CustomSynthesis/
 
 Example:
-process_custom_synth_birds.py custom_synth_runs/snacktavish_aves_81461_tmpw3m8cs_b taxonomy_info/OTT_eBird_combined_taxonomy_2021.tsv 
+process_custom_synth_birds.py ../AvesData/Tree_versions/Aves_1.2/OpenTreeSynth ../AvesData/Taxonomy_versions/Clements2023/OTT_crosswalk_2023.csv output_example
 

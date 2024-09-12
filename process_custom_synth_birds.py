@@ -25,8 +25,11 @@ And the custom synth directory, untarred.
 To perfom custom synth see:
 https://opentreeoflife.github.io/CustomSynthesis/
 
+Usage:
+process_custom_synth_birds.py <custom synth dir> <taxonomy corsswalk> <output directory>
+
 Example:
-process_custom_synth_birds.py custom_synth_runs/snacktavish_aves_81461_tmpw3m8cs_b taxonomy_info/OTT_eBird_combined_taxonomy_2021.tsv 
+process_custom_synth_birds.py custom_synth_runs/snacktavish_aves_81461_tmpw3m8cs_b taxonomy_info/OTT_eBird_combined_taxonomy_2021.tsv synth_summary
 """
 
 
@@ -48,6 +51,7 @@ def collapse_to_taxa_of_interest(tree, taxa_of_interest):
 
 custom_synth_dir = os.path.abspath(sys.argv[1])
 taxonomy_crosswalk = sys.argv[2] 
+output_dir = os.path.abspath(sys.argv[3])
 
 #-----------------------Prune tree--------------------------------------------
 
@@ -99,9 +103,9 @@ assert 'ott3598459' in leaves_B
 
 
 sys.stdout.write("Total number of tips in synth tree after pruning to taxa in Clements is {}\n".format(len(leaves_B)))
-sys.stdout.write("Synth tree pruned to taxa in Clements written to {}\n".format("{}/pruned.tre".format(custom_synth_dir)))
+sys.stdout.write("Synth tree pruned to taxa in Clements written to {}\n".format("{}/pruned.tre".format(output_dir)))
 
-custom_synth.write_to_path(dest="{}/pruned.tre".format(custom_synth_dir), schema = "newick")
+custom_synth.write_to_path(dest="{}/pruned.tre".format(output_dir), schema = "newick")
 
 
 #---------------------Prune to phylo only---------------------------------------------------------------------------
@@ -153,7 +157,7 @@ for tip in no_phylo_info:
                     no_phylo_info.remove(tip)
             phylo_par_subspp.add(tip)
 
-no_phylo_fi = open("{}/tips_without_phylo.txt".format(custom_synth_dir), 'w')
+no_phylo_fi = open("{}/tips_without_phylo.txt".format(output_dir), 'w')
 for tip in no_phylo_info:
     no_phylo_fi.write(clements_name_map[tip]+','+'\n')
 
@@ -171,7 +175,7 @@ phylo_tips_only.prune_taxa_with_labels(no_phylo_info)
 phylo_tips = [tip.taxon.label for tip in phylo_tips_only.leaf_node_iter()]
 sys.stdout.write("Total number of tips in synth tree after pruning to taxa in phylogenies is {}\n".format(len(phylo_tips)))
 
-phylo_tips_only.write_to_path(dest="{}/phylo_only.tre".format(custom_synth_dir), schema = "newick")
+phylo_tips_only.write_to_path(dest="{}/phylo_only.tre".format(output_dir), schema = "newick")
 
 #--------------------------Write Annotations -------------------
 
@@ -236,7 +240,7 @@ for node in node_support_annotation:
 
 
 
-study_cite_file = open("{}/citation_node_counts.tsv".format(custom_synth_dir), "w")
+study_cite_file = open("{}/citation_node_counts.tsv".format(output_dir), "w")
 
 for study_id in study_node_count:
     cites = OT.get_citations([study_id]).replace('\n','\t')
@@ -278,27 +282,27 @@ for node in node_annotations:
 
 
 # Label the ott_id tips to clements labels
-annotations.write_itol_relabel(clements_name_map, filename="{}/ottlabel.txt".format(custom_synth_dir))
+annotations.write_itol_relabel(clements_name_map, filename="{}/ottlabel.txt".format(output_dir))
 
 
-annotations.write_itol_conflict(node_annotations, title="Conflict15", filename="{}/conflict_12.txt".format(custom_synth_dir), max_conflict=12)
-annotations.write_itol_support(node_annotations, title="Support25", filename="{}/support_20.txt".format(custom_synth_dir), param="support", max_support = 20)
+annotations.write_itol_conflict(node_annotations, title="Conflict15", filename="{}/conflict_12.txt".format(output_dir), max_conflict=12)
+annotations.write_itol_support(node_annotations, title="Support25", filename="{}/support_20.txt".format(output_dir), param="support", max_support = 20)
 
 
-annotations.write_itol_conflict(node_annotations, title="Conflict3", filename="{}/conflict_3.txt".format(custom_synth_dir), max_conflict=3)
-annotations.write_itol_support(node_annotations, title="Support10", filename="{}/support_10.txt".format(custom_synth_dir), param="support", max_support = 10)
+annotations.write_itol_conflict(node_annotations, title="Conflict3", filename="{}/conflict_3.txt".format(output_dir), max_conflict=3)
+annotations.write_itol_support(node_annotations, title="Support10", filename="{}/support_10.txt".format(output_dir), param="support", max_support = 10)
 
 
 
-annotations.write_itol_conflict(jetz_annotations, title="ConflictJetz", filename="{}/jetz_conflict.txt".format(custom_synth_dir), max_conflict=1)
-annotations.write_itol_support(jetz_annotations,  title="SupportJetz", filename="{}/jetz_support.txt".format(custom_synth_dir), param="support", max_support = 1)
+annotations.write_itol_conflict(jetz_annotations, title="ConflictJetz", filename="{}/jetz_conflict.txt".format(output_dir), max_conflict=1)
+annotations.write_itol_support(jetz_annotations,  title="SupportJetz", filename="{}/jetz_support.txt".format(output_dir), param="support", max_support = 1)
 
 #annotations.write_itol_conflict(clem_annotations,  title="ConflictClements", filename="{}/clem_conflict.txt".format(custom_synth_dir), max_conflict=1)
 #annotations.write_itol_support(clem_annotations, title="SupportClements", filename="{}/clem_support.txt".format(custom_synth_dir), param="support", max_support = 1)
 
 
 
-studies_per_tip = open("{}/studies_per_tip.txt".format(custom_synth_dir), 'w')
+studies_per_tip = open("{}/studies_per_tip.txt".format(output_dir), 'w')
 for tip in custom_synth.leaf_node_iter():
     studies_per_tip.write(clements_name_map[tip.taxon.label] + ":")
     studies_per_tip.write(", ".join(annot['nodes'].get(tip.taxon.label, {}).get('supported_by', ' ')))
@@ -352,11 +356,11 @@ print("""{cc} nodes in the tree disagree with current CLO taxonomy""".format(cc=
 custom_str = chronogram.conflict_tree_str(custom_synth)
 
 
-dates_dir = "{}/dates".format(custom_synth_dir)
+dates_dir = "{}/dates".format(output_dir)
 if not os.path.exists(dates_dir):
     os.mkdir(dates_dir)
 
-select_dates_file = "{}/dates/custom_node_ages.json".format(custom_synth_dir)
+select_dates_file = "{}/dates/custom_node_ages.json".format(output_dir)
 
 
 selected_bird_chrono = ['ot_2018@tree8', 'ot_2013@tree8']
@@ -368,7 +372,7 @@ else:
                                                         compare_to = custom_str)#
 
 
-dates_cite_file = open("{}/dates/select_dates_citations.txt".format(custom_synth_dir), "w")
+dates_cite_file = open("{}/dates/select_dates_citations.txt".format(output_dir), "w")
 cites = OT.get_citations(selected_bird_chrono)
 dates_cite_file.write(cites)
 dates_cite_file.close()
@@ -386,7 +390,7 @@ treesfile, sources = chronogram.date_tree(phylo_tips_only,
                                           root_node,
                                           max_age_est,
                                           method='bladj',
-                                          output_dir="{}/dates/dates_select_phylo_only".format(custom_synth_dir),
+                                          output_dir="{}/dates/dates_select_phylo_only".format(output_dir),
                                           phylo_only=False,
                                           reps=1,
                                           select = "mean")
@@ -394,12 +398,12 @@ treesfile, sources = chronogram.date_tree(phylo_tips_only,
 
 dated_phylo= dendropy.Tree.get_from_path(treesfile, schema = "newick")
 
-dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_ott_labels.tre".format(custom_synth_dir), schema="newick")
+dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_ott_labels.tre".format(output_dir), schema="newick")
 
 for tax in dated_phylo.taxon_namespace:
     tax.label = clements_name_map[tax.label]
 
-dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_clements_labels.tre".format(custom_synth_dir), schema="newick")
+dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_clements_labels.tre".format(output_dir), schema="newick")
 
 print("""date information for {ld} nodes in the tree
          was summarized from {lds} published studies""".format(ld=len(select_dates['node_ages']),
