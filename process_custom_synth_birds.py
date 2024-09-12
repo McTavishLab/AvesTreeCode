@@ -30,15 +30,11 @@ process_custom_synth_birds.py custom_synth_runs/snacktavish_aves_81461_tmpw3m8cs
 """
 
 
-def make_node_url(source, node):
-    study, tree = source.split('@')
-    return "https://tree.opentreeoflife.org/curator/study/view/{}?tab=home&tree={}&node={}".format(study, tree, node)
-
-
 
 def collapse_to_taxa_of_interest(tree, taxa_of_interest):
     """
     Collapses internal nodes if they are present in 'taxa of interest'.
+    Used when subspecies are tips in the OpenTree synth, but the species level tip is in taxon set.
     Modifies tree itself.
     """
     for node in tree:
@@ -46,7 +42,6 @@ def collapse_to_taxa_of_interest(tree, taxa_of_interest):
             if node.label in taxa_of_interest:
                 node.clear_child_nodes()
                 node.taxon = tree.taxon_namespace.new_taxon(label=node.label)
-
 
 
 
@@ -69,14 +64,16 @@ custom_synth = dendropy.Tree.get_from_path("{}/labelled_supertree/labelled_super
                                             schema = "newick")
 
 
-## Count the leaves in the starting treecus
+## Count the leaves in the starting tree
 leaves_start = [tip.taxon.label for tip in custom_synth.leaf_node_iter()]
 sys.stdout.write("Total number of tips in synth tree is {}\n".format(len(leaves_start)))
 
 
+## Collapse to species level
 collapse_to_taxa_of_interest(custom_synth, taxa_in_clements)
 
 leaves_A = [tip.taxon.label for tip in custom_synth.leaf_node_iter()]
+
 assert 'ott3598459' in leaves_A
 sys.stdout.write("Total number of tips in synth tree after collapsing subspecies is {}\n".format(len(leaves_A)))
 
@@ -86,12 +83,14 @@ for tip in taxa_in_clements:
         lost_in_subspp_collapse.append(tip)
 
 
+##ToDo note what the poroblems were...
 prune_due_to_problems = ['ott5857186']
 
 for leaf in prune_due_to_problems:
     if leaf in taxa_in_clements:
         taxa_in_clements.remove(leaf)
         print("removed {} due to problems.\n".format(leaf))
+
 
 ## Prune the tree to only taxa that have Clements names
 custom_synth.retain_taxa_with_labels(taxa_in_clements)
@@ -100,11 +99,13 @@ assert 'ott3598459' in leaves_B
 
 
 sys.stdout.write("Total number of tips in synth tree after pruning to taxa in Clements is {}\n".format(len(leaves_B)))
+sys.stdout.write("Synth tree pruned to taxa in Clements written to {}\n".format("{}/pruned.tre".format(custom_synth_dir)))
+
 custom_synth.write_to_path(dest="{}/pruned.tre".format(custom_synth_dir), schema = "newick")
 
 
 #---------------------Prune to phylo only---------------------------------------------------------------------------
-
+## 
 annot = json.load(open("{}/annotated_supertree/annotations.json".format(custom_synth_dir)))
 
 
