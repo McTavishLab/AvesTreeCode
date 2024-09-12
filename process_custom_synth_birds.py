@@ -367,6 +367,7 @@ select_dates_file = "{}/dates/custom_node_ages.json".format(output_dir)
 
 
 selected_bird_chrono = ['ot_2018@tree8', 'ot_2013@tree8']
+## Kimball et al 2019 and Oliveros 2019
 if os.path.exists(select_dates_file):
     select_dates = json.load(open(select_dates_file))
 else:
