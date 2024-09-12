@@ -46,29 +46,27 @@ process_custom_synth_birds.py ../AvesData/Tree_versions/Aves_1.2/OpenTreeSynth .
 
 
 Output_example will contain:
-Treefiles:  
-    pruned.tre -> the synth tree pruned to taxa found in the taxonomy crosswalk  
-    phylo_only.tre   -> the tree pruned to taxa found in the taxonomy corsswalk AND in phylogenetic inputs  
-Dates information in subdirectory dates/: (rough ultrametricization using only Kimball et al 2019 and Oliveros et al. 2019)  
-    custom_node_ages.json  -> the date input data. These dates are based only on   
-    phylo_only_select_dates_mean_clements_labels.tre  -> the phylogeny only tree, dated, with Clements taxonomy labels  
-    phylo_only_select_dates_mean_ott_labels.tre  -> the phylogeny only tree, dated, with OpenTree taxonomy labels  
-    select_dates_citations.txt <- citations for the studies used to date  
-    dates_select_phylo_only  <- directory of intermediate dating files  
-
-Metdata:  
-    citation_node_counts.tsv  <- Table of citations and how many nodes are supported by each  
-    tips_without_phylo.txt <- taxa in crosswalk with no phylogenetic information  
-    studies_per_tip.txt <- Mapping of what input studies inform placement of each tip  
-
-Annotation files for viewing on itol:  
-    ottlabel.txt <- Annotation file to re-label tips from ott ids to Clements labels  
-    jetz_support.txt   <- agreement with Jetz et al. 2012  
-    jetz_conflict.txt  <- disagreement with Jetz et al. 2012  
-    conflict_12.txt   <- Conflict scaled to max color at 12       
-    conflict_3.txt   <- Conflict scaled to max color at 3              
-    support_10.txt <- Support scaled to max color at 10   
-    support_20.txt <- Support scaled to max color at 20   
+* Treefiles:  
+    - pruned.tre -> the synth tree pruned to taxa found in the taxonomy crosswalk  
+    - phylo_only.tre   -> the tree pruned to taxa found in the taxonomy corsswalk AND in phylogenetic inputs  
+* Dates information in subdirectory dates/: (rough ultrametricization using only Kimball et al 2019 and Oliveros et al. 2019)  
+    - dates/custom_node_ages.json  -> the date input data. These dates are based only on   
+    - dates/phylo_only_select_dates_mean_clements_labels.tre  -> the phylogeny only tree, dated, with Clements taxonomy labels  
+    - dates/phylo_only_select_dates_mean_ott_labels.tre  -> the phylogeny only tree, dated, with OpenTree taxonomy labels  
+    - dates/select_dates_citations.txt <- citations for the studies used to date  
+    - dates/dates_select_phylo_only  <- directory of intermediate dating files  
+* Metdata:  
+    - citation_node_counts.tsv  <- Table of citations and how many nodes are supported by each  
+    - tips_without_phylo.txt <- taxa in crosswalk with no phylogenetic information  
+    - studies_per_tip.txt <- Mapping of what input studies inform placement of each tip  
+* Annotation files for viewing on itol:  
+    - ottlabel.txt <- Annotation file to re-label tips from ott ids to Clements labels  
+    - jetz_support.txt   <- agreement with Jetz et al. 2012  
+    - jetz_conflict.txt  <- disagreement with Jetz et al. 2012  
+    - conflict_12.txt   <- Conflict scaled to max color at 12       
+    - conflict_3.txt   <- Conflict scaled to max color at 3              
+    - support_10.txt <- Support scaled to max color at 10   
+    - support_20.txt <- Support scaled to max color at 20   
 
 
 ### Step 3: Add taxa not in phylogenies
