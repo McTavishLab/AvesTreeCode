@@ -53,6 +53,8 @@ custom_synth_dir = os.path.abspath(sys.argv[1])
 taxonomy_crosswalk = sys.argv[2] 
 output_dir = os.path.abspath(sys.argv[3])
 
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
 #-----------------------Prune tree--------------------------------------------
 
 sys.stdout.write("Reading and pruning synth tree\n")
