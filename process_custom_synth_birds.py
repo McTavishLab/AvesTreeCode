@@ -153,7 +153,7 @@ for tip in no_phylo_info:
             if 'terminal' in annot['nodes'][spp_tip].keys():
                 if not set([source.split('@')[0] for source in annot['nodes'][spp_tip]['terminal'].keys()]) == set(['ot_2019']):
                     no_phylo_info.remove(tip)
-                    print("{} parent spp in trees".format(tip))
+                #    print("{} parent spp in trees".format(tip))
             elif 'supported_by' in annot['nodes'][spp_tip].keys():
                 if not set([source.split('@')[0] for source in annot['nodes'][spp_tip]['supported_by'].keys()]) == set(['ot_2019']):
                     no_phylo_info.remove(tip)
@@ -314,6 +314,7 @@ for tip in custom_synth.leaf_node_iter():
 studies_per_tip.close()
 
 
+##ToDo - phylo_supp is higehr than total node count... tips?
 for node in node_support_annotation:
     supp = node_support_annotation.get(node, {})
     if len(set([source.split('@')[0] for source in node_support_annotation[node].keys()]).difference(set(['ot_2019']))) >=1:
