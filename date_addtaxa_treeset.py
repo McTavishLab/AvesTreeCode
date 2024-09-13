@@ -10,21 +10,26 @@ from chronosynth import chronogram
 from helpers import crosswalk_to_dict
 
 """
-Pass in set of trees with CLO labels
+Pass in set of complete trees with CLO labels
+
+python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_out
+
 """
 
+input_trees_path = sys.argv[1] 
+base_tree_path = sys.argv[2] 
+taxonomy_crosswalk = sys.argv[3] 
+output_dir = sys.argv[4]
 
-custom_synth_dir = os.path.abspath(sys.argv[1])
-taxonomy_crosswalk = sys.argv[2] 
-input_trees_file = sys.argv[3] 
-filename = sys.argv[4]
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
 
 ## Generates a dictionary to get Clements names from OTT_ids
 clements_name_map = crosswalk_to_dict(taxonomy_crosswalk)
 ott_id_map = {v: k for k, v in clements_name_map.items()}
 
 
-custom_synth = dendropy.TreeList.get(path=input_trees_file, schema = 'newick')
+custom_synth = dendropy.TreeList.get(path=input_trees_path, schema = 'newick')
 ## Estimate dates
 
 
@@ -34,7 +39,7 @@ for tax in custom_synth.taxon_namespace:
 
 
 
-dates_dir = "{}/dates_add_taxa".format(custom_synth_dir)
+dates_dir = "{}/dates_add_taxa".format(output_dir)
 if not os.path.exists(dates_dir):
     os.mkdir(dates_dir)
 
@@ -47,7 +52,7 @@ bird_chrono = bird_chrono - problematic_chrono
 
 
 
-base_tree = dendropy.Tree.get_from_path(custom_synth_dir+"/phylo_only.tre", schema="Newick")
+base_tree = dendropy.Tree.get_from_path(base_tree_path, schema="Newick")
 custom_str = chronogram.conflict_tree_str(base_tree)
 all_dates_file = "{}/all_node_ages.json".format(dates_dir)
 #if os.path.exists(all_dates_file):
@@ -104,15 +109,15 @@ for tree in custom_synth:
                                                 root_node,
                                                 max_age_est,
                                                 method='bladj',
-                                                output_dir="{}/dates_all_mean_{}_{}".format(dates_dir, filename, tree_iter),
+                                                output_dir="{}/dates_all_mean_{}".format(dates_dir, tree_iter),
                                                 select = "mean",
                                                 reps = 1
                                                 )
     dated_phylo = dendropy.Tree.get_from_path(treesfile, schema = "newick")
-    dated_phylo.write(path="{}/dated_mean_all_dates_ott_labels_{}_tree{}.tre".format(dates_dir, filename, tree_iter), schema="newick")
+    dated_phylo.write(path="{}/dated_mean_all_dates_ott_labels_tree{}.tre".format(dates_dir, tree_iter), schema="newick")
     for tax in dated_phylo.taxon_namespace:
         tax.label = clements_name_map.get(tax.label, tax.label)
-    dated_phylo.write(path="{}/dated_mean_all_dates_clements_labels_{}_tree{}.tre".format(dates_dir, filename, tree_iter), schema="newick")
+    dated_phylo.write(path="{}/dated_mean_all_dates_clements_labels_tree{}.tre".format(dates_dir, tree_iter), schema="newick")
 
 
 #--------------------Generating citations -------------------------------------
@@ -126,7 +131,7 @@ for node in all_dates['node_ages']:
         matched_date_studies.add(source['source_id'].split('@')[0])
 
 
-dates_cite_file = open("{}/dates/full_dates_citations.txt".format(custom_synth_dir), "w")
+dates_cite_file = open("{}/dates/full_dates_citations.txt".format(output_dir), "w")
 cites = OT.get_citations(matched_date_studies)
 dates_cite_file.write(cites)
 dates_cite_file.close()
@@ -152,7 +157,7 @@ for tree in custom_synth:
                                           root_node,
                                           max_age_est,
                                           method='bladj',
-                                          output_dir="{}/dates_all_rand_sample{}_{}_{}".format(dates_dir, filename, tree_iter, i),
+                                          output_dir="{}/dates_all_rand_sample_{}_{}".format(dates_dir, tree_iter, i),
                                           select = "random",
                                           reps = 1
                                           )
@@ -160,7 +165,7 @@ for tree in custom_synth:
 #        dated_phylo.write(path="{}/dated_mean_all_dates_ott_labels_{}_tree{}.tre".format(dates_dir, filename, tree_iter), schema="newick")
         for tax in dated_phylo.taxon_namespace:
             tax.label = clements_name_map.get(tax.label, tax.label)
-        dated_phylo.write(path="{}/dated_rand_all_dates_clements_labels_{}_tree{}_{}.tre".format(dates_dir, filename, tree_iter, i), schema="newick")
+        dated_phylo.write(path="{}/dated_rand_all_dates_clements_labels_tree{}_{}.tre".format(dates_dir, tree_iter, i), schema="newick")
 
 
 
