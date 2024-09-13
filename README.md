@@ -70,3 +70,6 @@ Output_example will contain:
 
 
 ### Step 3: Add taxa not in phylogenies
+
+
+### Step 4: Dates
