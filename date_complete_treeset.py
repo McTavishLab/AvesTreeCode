@@ -19,7 +19,8 @@ python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/t
 input_trees_path = sys.argv[1] 
 base_tree_path = sys.argv[2] 
 taxonomy_crosswalk = sys.argv[3] 
-output_dir = sys.argv[4]
+max_age_est = sys.argv[4]
+output_dir = sys.argv[5]
 
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
@@ -43,17 +44,20 @@ dates_dir = "{}/dates_add_taxa".format(output_dir)
 if not os.path.exists(dates_dir):
     os.mkdir(dates_dir)
 
-
+## Reads in all of the dated trees, and finds the ones that have birds in them
 all_chronograms = chronogram.find_trees(search_property="ot:branchLengthMode", value="ot:time")
 all_birds = chronogram.find_trees(search_property="ot:ottId", value="81461")
 bird_chrono = set(all_chronograms).intersection(set(all_birds))
+
+## Excludes two chronograms with known date issues
 problematic_chrono = set(["ot_2008@tree5", "pg_2829@tree6579"])
 bird_chrono = bird_chrono - problematic_chrono
 
 
-
+## pulls in the labelled input tree
 base_tree = dendropy.Tree.get_from_path(base_tree_path, schema="Newick")
 custom_str = chronogram.conflict_tree_str(base_tree)
+
 all_dates_file = "{}/all_node_ages.json".format(dates_dir)
 #if os.path.exists(all_dates_file):
 #    all_dates = json.load(open(all_dates_file))
@@ -63,6 +67,7 @@ internal_label_map = {}
 
 base_tree_leaves = set(tip.taxon.label for tip in base_tree.leaf_node_iter())
 
+# Maps each internal node label to the set of tips
 for node in base_tree:
     internal_label_map[node.label] = set(tip.taxon.label for tip in node.leaf_iter())
 
@@ -76,6 +81,8 @@ else:
 
 tree_iter = 0
 
+## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
+## NOTE: Root age is SET!
 for tree in custom_synth:
     internal_label_map_new ={}
     tree_iter+=1
@@ -83,26 +90,6 @@ for tree in custom_synth:
     leaves = [tip.taxon.label for tip in tree.leaf_node_iter()]
     root_node = "ott81461"
     tree.seed_node.label = root_node
-#     node_iter = 0
-#     for node in tree:
-#         if node.is_leaf() == False:
-#             node_iter += 1
-#             if node.taxon:
-#                 node_label = node.taxon.label
-#             else:
-#                 node_label = node.label
-#             if node_label == "NA" or None:
-#                 phylo_tips = base_tree_leaves.intersection(set(tip.taxon.label for tip in node.leaf_iter()))
-#                 if len(phylo_tips) < 2:
-#                     node.label = "node{}".format(node_iter)
-#                 else:
-#                     mrca = base_tree.mrca(taxon_labels=phylo_tips)
-#                     node.label = mrca.label
-#             assert base_tree_leaves.intersection(set(tip.taxon.label for tip in node.leaf_iter())) == internal_label_map.get(node.label, set())
-
-#             internal_label_map_new[node.label] = set(tip.taxon.label for tip in node.leaf_iter())
-#     assert set(internal_label_map.keys()).issubset(set(internal_label_map_new.keys()))
-    max_age_est = 130
     print("dating full tree, all dates, mean")
     treesfile, sources = chronogram.date_tree(tree,
                                                 all_dates,
@@ -143,10 +130,11 @@ print("""date information for {ld} nodes in the tree
           was summarized from {lds} published studies""".format(ld=node_date_count,
                                                                  lds=len(matched_date_studies)))
 
+## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
+## NOTE: Root age is SET!
 for tree in custom_synth:
     tree_iter+=1
     ##relabel
-    
     leaves = [tip.taxon.label for tip in tree.leaf_node_iter()]
     root_node = "ott81461"
     max_age_est = 130
