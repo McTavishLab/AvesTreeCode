@@ -118,7 +118,7 @@ for node in all_dates['node_ages']:
         matched_date_studies.add(source['source_id'].split('@')[0])
 
 
-dates_cite_file = open("{}/dates/full_dates_citations.txt".format(output_dir), "w")
+dates_cite_file = open("{}/full_dates_citations.txt".format(output_dir), "w")
 cites = OT.get_citations(matched_date_studies)
 dates_cite_file.write(cites)
 dates_cite_file.close()
@@ -130,7 +130,7 @@ print("""date information for {ld} nodes in the tree
           was summarized from {lds} published studies""".format(ld=node_date_count,
                                                                  lds=len(matched_date_studies)))
 
-## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
+## This runs through each complete tree and estimates the dates on that tree, selecting one arbitray date for each node.
 ## NOTE: Root age is SET!
 for tree in custom_synth:
     tree_iter+=1
@@ -150,7 +150,7 @@ for tree in custom_synth:
                                           reps = 1
                                           )
         dated_phylo = dendropy.Tree.get_from_path(treesfile, schema = "newick")
-#        dated_phylo.write(path="{}/dated_mean_all_dates_ott_labels_{}_tree{}.tre".format(dates_dir, filename, tree_iter), schema="newick")
+        dated_phylo.write(path="{}/dated_rand_all_dates_ott_labels_{}_tree{}.tre".format(dates_dir, tree_iter, i), schema="newick")
         for tax in dated_phylo.taxon_namespace:
             tax.label = clements_name_map.get(tax.label, tax.label)
         dated_phylo.write(path="{}/dated_rand_all_dates_clements_labels_tree{}_{}.tre".format(dates_dir, tree_iter, i), schema="newick")
