@@ -79,6 +79,28 @@ else:
                                                      compare_to = base_tree)
 
 
+
+
+node_date_count = 0
+matched_date_studies = set()
+for node in all_dates['node_ages']:
+    node_date_count += 1
+    for source in all_dates['node_ages'][node]:
+        matched_date_studies.add(source['source_id'].split('@')[0])
+
+
+dates_cite_file = open("{}/full_dates_citations.txt".format(output_dir), "w")
+cites = OT.get_citations(matched_date_studies)
+dates_cite_file.write(cites)
+dates_cite_file.close()
+
+
+# #--------------------------------------------------------------------------------------------------
+
+print("""date information for {ld} nodes in the tree
+          was summarized from {lds} published studies""".format(ld=node_date_count,
+                                                                 lds=len(matched_date_studies)))
+
 tree_iter = 0
 
 ## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
@@ -109,28 +131,7 @@ for tree in custom_synth:
 
 #--------------------Generating citations -------------------------------------
 
-
-node_date_count = 0
-matched_date_studies = set()
-for node in all_dates['node_ages']:
-    node_date_count += 1
-    for source in all_dates['node_ages'][node]:
-        matched_date_studies.add(source['source_id'].split('@')[0])
-
-
-dates_cite_file = open("{}/full_dates_citations.txt".format(output_dir), "w")
-cites = OT.get_citations(matched_date_studies)
-dates_cite_file.write(cites)
-dates_cite_file.close()
-
-
-# #--------------------------------------------------------------------------------------------------
-
-print("""date information for {ld} nodes in the tree
-          was summarized from {lds} published studies""".format(ld=node_date_count,
-                                                                 lds=len(matched_date_studies)))
-
-## This runs through each complete tree and estimates the dates on that tree, selecting one arbitray date for each node.
+## This runs through each complete tree and estimates the dates on that tree, selecting one arbitrary date for each node.
 ## NOTE: Root age is SET!
 for tree in custom_synth:
     tree_iter+=1
