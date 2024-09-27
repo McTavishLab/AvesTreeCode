@@ -19,8 +19,7 @@ python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/t
 input_trees_path = sys.argv[1] 
 base_tree_path = sys.argv[2] 
 taxonomy_crosswalk = sys.argv[3] 
-max_age_est = sys.argv[4]
-output_dir = sys.argv[5]
+output_dir = sys.argv[4]
 
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
@@ -79,8 +78,6 @@ else:
                                                      compare_to = base_tree)
 
 
-
-
 node_date_count = 0
 matched_date_studies = set()
 for node in all_dates['node_ages']:
@@ -104,19 +101,23 @@ print("""date information for {ld} nodes in the tree
 tree_iter = 0
 
 ## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
-## NOTE: Root age is SET!
+
+root_node = "ott81461"
+assert(tree.seed_node.label == root_node)
+root_ages = [int(date['age']) for date in all_dates['node_ages'][root_node]]
+max_root_age = min(root_ages)
+mean_root_age = sum(root_ages)/len(root_ages)
+
+
 for tree in custom_synth:
     internal_label_map_new ={}
     tree_iter+=1
     ##relabel
-    leaves = [tip.taxon.label for tip in tree.leaf_node_iter()]
-    root_node = "ott81461"
-    tree.seed_node.label = root_node
     print("dating full tree, all dates, mean")
     treesfile, sources = chronogram.date_tree(tree,
                                                 all_dates,
                                                 root_node,
-                                                max_age_est,
+                                                max_age_mean, 
                                                 method='bladj',
                                                 output_dir="{}/dates_all_mean_{}".format(dates_dir, tree_iter),
                                                 select = "mean",
@@ -138,13 +139,11 @@ for tree in custom_synth:
     ##relabel
     leaves = [tip.taxon.label for tip in tree.leaf_node_iter()]
     root_node = "ott81461"
-    max_age_est = 130
     print("dating full tree, all dates, rand")
     for i in range(10):
         treesfile, sources = chronogram.date_tree(tree,
                                           all_dates,
                                           root_node,
-                                          max_age_est,
                                           method='bladj',
                                           output_dir="{}/dates_all_rand_sample_{}_{}".format(dates_dir, tree_iter, i),
                                           select = "random",

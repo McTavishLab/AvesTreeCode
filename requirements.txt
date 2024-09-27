@@ -1,6 +1,6 @@
 dendropy
 sh
--e git+https://github.com/OpenTreeOfLife/chronosynth@dev#egg=chronosynth
+-e git+https://github.com/OpenTreeOfLife/chronosynth@root_date#egg=chronosynth
 -e git+https://github.com/OpenTreeOfLife/python-opentree@itol_annot#egg=opentree
 -e git+ssh://git@github.com/OpenTreeOfLife/peyotl.git@master#egg=peyotl
 
