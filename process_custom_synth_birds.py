@@ -384,7 +384,7 @@ dates_cite_file.close()
 print("checking mrca")
 root_node = OT.synth_mrca(node_ids=leaves_B).response_dict['mrca']['node_id']
 
-max_age_est = 130
+max_age_est = 120
 #https://academic.oup.com/sysbio/article/63/3/442/1649269
 
 print("dating phylo only tree, custom, mean")
@@ -395,9 +395,9 @@ treesfile, sources = chronogram.date_tree(phylo_tips_only,
                                           max_age_est,
                                           method='bladj',
                                           output_dir="{}/dates/dates_select_phylo_only".format(output_dir),
-                                          phylo_only=False,
-                                          reps=1,
-                                          select = "mean")
+                                          reps=100,
+                                          select = "mean",
+                                          resolve_polytomies=True)
 
 
 dated_phylo= dendropy.Tree.get_from_path(treesfile, schema = "newick")
