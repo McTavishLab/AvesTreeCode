@@ -254,8 +254,8 @@ study_cite_file.close()
 ## Map how branches across the tree support or conlfict with specific input trees.
 
 
-clem_conf = 0
-clem_supp = 0
+#clem_conf = 0
+#clem_supp = 0
 jetz_conf = 0
 jetz_supp = 0
 all_conf = 0
@@ -341,7 +341,7 @@ print("""This comprises {per:.2} of the {cls} species
                         in the 2021 clements taxonomy""".format(per = len(leaves_B)/CLO_spp_num,
                                                                cls=CLO_spp_num))
 
-print("""{cc} nodes in the tree disagree with current CLO taxonomy""".format(cc=clem_conf))
+#print("""{cc} nodes in the tree disagree with current CLO taxonomy""".format(cc=clem_conf))
                                                                     
 
 
