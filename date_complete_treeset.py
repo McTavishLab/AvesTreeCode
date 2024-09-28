@@ -3,6 +3,7 @@ import sys
 import os
 import csv
 import json
+import random
 import dendropy
 import subprocess
 from opentree import OT
@@ -103,13 +104,14 @@ tree_iter = 0
 ## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
 
 root_node = "ott81461"
-assert(tree.seed_node.label == root_node)
 root_ages = [int(date['age']) for date in all_dates['node_ages'][root_node]]
-max_root_age = min(root_ages)
+min_root_age = min(root_ages)
+max_root_age = max(root_ages)
 mean_root_age = sum(root_ages)/len(root_ages)
 
 
 for tree in custom_synth:
+    assert(tree.seed_node.label == root_node)
     internal_label_map_new ={}
     tree_iter+=1
     ##relabel
@@ -117,7 +119,7 @@ for tree in custom_synth:
     treesfile, sources = chronogram.date_tree(tree,
                                                 all_dates,
                                                 root_node,
-                                                max_age_mean, 
+                                                mean_root_age, 
                                                 method='bladj',
                                                 output_dir="{}/dates_all_mean_{}".format(dates_dir, tree_iter),
                                                 select = "mean",
@@ -135,25 +137,26 @@ for tree in custom_synth:
 ## This runs through each complete tree and estimates the dates on that tree, selecting one arbitrary date for each node.
 ## NOTE: Root age is SET!
 for tree in custom_synth:
+    root_age = random.choice(root_ages)
     tree_iter+=1
     ##relabel
     leaves = [tip.taxon.label for tip in tree.leaf_node_iter()]
     root_node = "ott81461"
     print("dating full tree, all dates, rand")
-    for i in range(10):
-        treesfile, sources = chronogram.date_tree(tree,
+    treesfile, sources = chronogram.date_tree(tree,
                                           all_dates,
                                           root_node,
+                                          root_age,
                                           method='bladj',
-                                          output_dir="{}/dates_all_rand_sample_{}_{}".format(dates_dir, tree_iter, i),
+                                          output_dir="{}/dates_all_rand_sample_{}".format(dates_dir, tree_iter),
                                           select = "random",
                                           reps = 1
                                           )
-        dated_phylo = dendropy.Tree.get_from_path(treesfile, schema = "newick")
-        dated_phylo.write(path="{}/dated_rand_all_dates_ott_labels_{}_tree{}.tre".format(dates_dir, tree_iter, i), schema="newick")
-        for tax in dated_phylo.taxon_namespace:
+    dated_phylo = dendropy.Tree.get_from_path(treesfile, schema = "newick")
+    dated_phylo.write(path="{}/dated_rand_all_dates_ott_labels_tree{}.tre".format(dates_dir, tree_iter), schema="newick")
+    for tax in dated_phylo.taxon_namespace:
             tax.label = clements_name_map.get(tax.label, tax.label)
-        dated_phylo.write(path="{}/dated_rand_all_dates_clements_labels_tree{}_{}.tre".format(dates_dir, tree_iter, i), schema="newick")
+    dated_phylo.write(path="{}/dated_rand_all_dates_clements_labels_tree{}.tre".format(dates_dir, tree_iter), schema="newick")
 
 
 

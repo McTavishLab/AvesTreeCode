@@ -400,7 +400,7 @@ treesfile, sources = chronogram.date_tree(phylo_tips_only,
                                           resolve_polytomies=True)
 
 
-dated_phylo= dendropy.Tree.get_from_path(treesfile, schema = "newick")
+dated_phylo= dendropy.TreeList.get_from_path(treesfile, schema = "newick")
 
 dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_ott_labels.tre".format(output_dir), schema="newick")
 
