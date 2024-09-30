@@ -116,7 +116,7 @@ class(toSave) <- "multiPhylo"
 #somehow we get polytomies again. resolve again
 toSave <- lapply(toSave, multi2di, random=TRUE)
 
-write.tree(toSave, "complete_treeset.tre")
+write.tree(toSave, "taxon_addition_treeset.tre")
 
 #try plotting a tree for every family where species you added taxonomically are colored
 #in red
