@@ -352,3 +352,68 @@ print("""This comprises {per:.2} of the {cls} species
                                                                     
 
 
+
+
+
+
+#---------------------------- Dating ---------------------------
+
+
+## Rough estimate on dates
+
+custom_str = chronogram.conflict_tree_str(custom_synth)
+
+
+dates_dir = "{}/dates".format(output_dir)
+if not os.path.exists(dates_dir):
+    os.mkdir(dates_dir)
+
+select_dates_file = "{}/dates/custom_node_ages.json".format(output_dir)
+
+
+selected_bird_chrono = ['ot_2018@tree8', 'ot_2013@tree8']
+## Kimball et al 2019 and Oliveros 2019
+if os.path.exists(select_dates_file):
+    select_dates = json.load(open(select_dates_file))
+else:
+    select_dates = chronogram.combine_ages_from_sources(selected_bird_chrono,#list(bird_chrono)
+                                                        json_out = select_dates_file,
+                                                        compare_to = custom_str)#
+
+
+dates_cite_file = open("{}/dates/select_dates_citations.txt".format(output_dir), "w")
+cites = OT.get_citations(selected_bird_chrono)
+dates_cite_file.write(cites)
+dates_cite_file.close()
+
+print("checking mrca")
+root_node = OT.synth_mrca(node_ids=leaves_B).response_dict['mrca']['node_id']
+
+max_age_est = 120
+#https://academic.oup.com/sysbio/article/63/3/442/1649269
+
+print("dating phylo only tree, custom, mean")
+
+treesfile, sources = chronogram.date_tree(phylo_tips_only,
+                                          select_dates,
+                                          root_node,
+                                          max_age_est,
+                                          method='bladj',
+                                          output_dir="{}/dates/dates_select_phylo_only".format(output_dir),
+                                          reps=100,
+                                          select = "mean",
+                                          resolve_polytomies=True)
+
+
+dated_phylo= dendropy.TreeList.get_from_path(treesfile, schema = "newick")
+
+dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_ott_labels.tre".format(output_dir), schema="newick")
+
+for tax in dated_phylo.taxon_namespace:
+    tax.label = clements_name_map[tax.label]
+
+dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_clements_labels.tre".format(output_dir), schema="newick")
+
+print("""date information for {ld} nodes in the tree
+         was summarized from {lds} published studies""".format(ld=len(select_dates['node_ages']),
+                                                                lds=len(selected_bird_chrono)))

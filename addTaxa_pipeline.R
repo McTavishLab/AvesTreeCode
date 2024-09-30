@@ -19,7 +19,7 @@ groupings <- read.csv("../AvesData/Taxonomy_versions/Clements2021/TaxonomytaxonA
 tax <- read.csv("../AvesData/Taxonomy_versions/Clements2021/eBird_Taxonomy_v2021.csv") 
 
 
-#force the trees to be ultrametric
+#force the trees to be ultrametric, even though branch lengths are not meaningful
 #this comes from a jonathan chang's blog
 #https://www.r-bloggers.com/2021/07/three-ways-to-check-and-fix-ultrametric-phylogenies/
 
