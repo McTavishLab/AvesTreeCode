@@ -389,7 +389,7 @@ dates_cite_file.close()
 print("checking mrca")
 root_node = OT.synth_mrca(node_ids=leaves_B).response_dict['mrca']['node_id']
 
-max_age_est = 120
+max_age_est = 130
 #https://academic.oup.com/sysbio/article/63/3/442/1649269
 
 print("dating phylo only tree, custom, mean")
@@ -400,19 +400,19 @@ treesfile, sources = chronogram.date_tree(phylo_tips_only,
                                           max_age_est,
                                           method='bladj',
                                           output_dir="{}/dates/dates_select_phylo_only".format(output_dir),
-                                          reps=100,
+                                          reps=1,
                                           select = "mean",
                                           resolve_polytomies=True)
 
 
-dated_phylo= dendropy.TreeList.get_from_path(treesfile, schema = "newick")
+dated_phylo= dendropy.Tree.get_from_path(treesfile, schema = "newick")
 
-dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_ott_labels.tre".format(output_dir), schema="newick")
+dated_phylo.write(path="{}/phylo_only_ott_labels_ultrametric.tre".format(output_dir), schema="newick")
 
 for tax in dated_phylo.taxon_namespace:
     tax.label = clements_name_map[tax.label]
 
-dated_phylo.write(path="{}/dates/phylo_only_select_dates_mean_clements_labels.tre".format(output_dir), schema="newick")
+dated_phylo.write(path="{}/phylo_only_clements_labels_ultrametric.tre".format(output_dir), schema="newick")
 
 print("""date information for {ld} nodes in the tree
          was summarized from {lds} published studies""".format(ld=len(select_dates['node_ages']),

@@ -12,24 +12,25 @@ library(RRphylo)
 #load the tree from the Aves Data Repo
 
 setwd("AvesTreeCode")
-myTree <- read.tree("../AvesData/Tree_versions/Aves_1.3/Clements2021/phylo_only_clements_labels.tre")
+
+
+myTree <- read.tree("../AvesData/Tree_versions/Aves_1.3/Clements2021/phylo_only_clements_labels_ultrametric.tre")
 
 #load the grouping file and taxonomy
-groupings <- read.csv("../AvesData/Taxonomy_versions/Clements2021/TaxonomytaxonAddition_2021taxonomy_v1_4.csv")
+groupings <- read.csv("../AvesData/Taxonomy_versions/Clements2021/taxonAddition_2021taxonomy_v1_4.csv")
 tax <- read.csv("../AvesData/Taxonomy_versions/Clements2021/eBird_Taxonomy_v2021.csv") 
 
 
-#force the trees to be ultrametric, even though branch lengths are not meaningful
+#force the trees to be ultrametric
 #this comes from a jonathan chang's blog
 #https://www.r-bloggers.com/2021/07/three-ways-to-check-and-fix-ultrametric-phylogenies/
 
 #convenience variables
-N <- Ntip(myTree)
-myTree$edge.length <- rep(.1, N) # add edge length
 myTree <- reorder(myTree, "postorder")
 e1 <- myTree$edge[, 1] # parent node
 e2 <- myTree$edge[, 2] # child node
 EL <- myTree$edge.length
+N <- Ntip(myTree)
 ages <- numeric(N + myTree$Nnode)
 
 for (ii in seq_along(EL)) {
@@ -115,7 +116,7 @@ class(toSave) <- "multiPhylo"
 #somehow we get polytomies again. resolve again
 toSave <- lapply(toSave, multi2di, random=TRUE)
 
-#write.tree(toSave, "data/v1_3_tree_v1_4_add_2021_taxonomy_resolved.tre")
+write.tree(toSave, "complete_treeset.tre")
 
 #try plotting a tree for every family where species you added taxonomically are colored
 #in red
