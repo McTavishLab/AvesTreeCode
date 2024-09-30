@@ -179,6 +179,13 @@ sys.stdout.write("Total number of tips in synth tree after pruning to taxa in ph
 
 phylo_tips_only.write_to_path(dest="{}/phylo_only.tre".format(output_dir), schema = "newick")
 
+phylo_only_clements = copy.deepcopy(phylo_tips_only)
+for tip in phylo_only_clements.leaf_node_iter:
+    tip.tax.label = clements_name_map[tip.tax.label]
+
+phylo_only_clements.write(path="{}/phylo_only_clements_labels.tre".format(output_dir), schema="newick")
+
+
 #--------------------------Write Annotations -------------------
 
 # Walk through the nodes, and summaraize annotations
