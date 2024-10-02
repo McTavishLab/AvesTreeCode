@@ -50,7 +50,7 @@ all_birds = chronogram.find_trees(search_property="ot:ottId", value="81461")
 bird_chrono = set(all_chronograms).intersection(set(all_birds))
 
 ## Excludes two chronograms with known date issues
-problematic_chrono = set(["ot_2008@tree5", "pg_2829@tree6579"])
+problematic_chrono = set(["ot_2008@tree5", "pg_2829@tree6579", "ot_2218@tree1"])
 bird_chrono = bird_chrono - problematic_chrono
 
 
@@ -101,7 +101,8 @@ print("""date information for {ld} nodes in the tree
 
 tree_iter = 0
 
-## This runs through each complete tree and estimates the dates on that tree, using the mean age for each dated node
+## This runs through each complete tree and estimates the dates on that tree, 
+## using the mean age for each dated node
 
 root_node = "ott81461"
 root_ages = [int(date['age']) for date in all_dates['node_ages'][root_node]]
@@ -133,9 +134,10 @@ for tree in custom_synth:
 
 
 #--------------------Generating citations -------------------------------------
+tree_iter = 0
 
-## This runs through each complete tree and estimates the dates on that tree, selecting one arbitrary date for each node.
-## NOTE: Root age is SET!
+## This runs through each complete tree and estimates the dates on that tree, 
+## selecting one arbitrary date for each dated node.
 for tree in custom_synth:
     root_age = random.choice(root_ages)
     tree_iter+=1

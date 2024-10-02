@@ -108,7 +108,19 @@ This dating aproach attempts to account for uncertainty in two ways -
     * random node date sampling: For each node with dates we randomly select one of the avilabale dates to cailbrate
 
 
-```python date_addtaxa_treeset.py <file containning the set of trees in newick> ../AvesData/Tree_versions/Aves_1.3/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_out```
+
+```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021```
 
 
-```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_out```
+To summarize these trees using treeannotator:
+
+```
+cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_ott_labels_tree*.tre > dated_treeset_2021/dated_rand_sample.tre
+cat dated_treeset_2021/dates_add_taxa/dated_mean_all_dates_ott_labels_tree*.tre > dated_treeset_2021/dated_mean_sample.tre
+```
+Use figtree to convert sampled treed to nexus
+
+```
+treeannotator -burnin 0  dated_treeset_2021/dated_rand_sample.nex out.tre
+
+```
