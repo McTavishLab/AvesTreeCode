@@ -294,7 +294,7 @@ for node in node_annotations:
 annotations.write_itol_relabel(clements_name_map, filename="{}/ottlabel.txt".format(output_dir))
 
 
-annotations.write_itol_conflict(node_annotations, title="Conflict15", filename="{}/conflict_12.txt".format(output_dir), max_conflict=12)
+annotations.write_itol_conflict(node_annotations, title="Conflict12", filename="{}/conflict_12.txt".format(output_dir), max_conflict=12)
 annotations.write_itol_support(node_annotations, title="Support25", filename="{}/support_20.txt".format(output_dir), param="support", max_support = 20)
 
 
