@@ -61,7 +61,7 @@ sys.stdout.write("Reading and pruning synth tree\n")
 
 ## Generates a dictionary to get Clements names from OTT_ids
 clements_name_map = crosswalk_to_dict(taxonomy_crosswalk)
-ott_name_map = crosswalk_to_dict(taxonomy_crosswalk, alt_name='name')
+ott_name_map = crosswalk_to_dict(taxonomy_crosswalk, alt_name='ott_name')
 taxa_in_clements = [key for key in clements_name_map] 
 
 

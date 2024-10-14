@@ -111,16 +111,14 @@ This dating aproach attempts to account for uncertainty in two ways -
 
 ```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021```
 
+```
 
-To summarize these trees using treeannotator:
+I summarized these trees using RevBayes
 
 ```
-cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_ott_labels_tree*.tre > dated_treeset_2021/dated_rand_sample.tre
-cat dated_treeset_2021/dates_add_taxa/dated_mean_all_dates_ott_labels_tree*.tre > dated_treeset_2021/dated_mean_sample.tre
-```
-Use figtree to convert sampled treed to nexus
-
-```
-treeannotator -burnin 0  dated_treeset_2021/dated_rand_sample.nex out.tre
-
+$ echo "trees" > dated_treeset_2021/dated_rand_sample.tre ##Rev Bayes expects a header line, or you lose your first tree
+$ cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_ott_labels_tree*.tre >> dated_treeset_2021_sample/dated_rand_sample.tre
+$ rb
+> tt = readTreeTrace("dated_treeset_2021/dated_rand_sample.tre", "clock", burnin=0)
+> con_tree = consensusTree(trace=tt, file="dated_treeset_2021/rb_consensus_var.tre", positiveBranchLengths=TRUE)
 ```
