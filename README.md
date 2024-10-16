@@ -121,6 +121,8 @@ This dating aproach attempts to account for uncertainty in two ways -
     * node mean date calibration: where the avarage age of evey dated node is used to calibrate
     * random node date sampling: For each node with dates we randomly select one of the available dates to cailbrate. If there is only one date for that node, it is used with probability 0.5.
 
+More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/chronosynth/wiki/Chronosynth-methods-overview)
+
 
 ```python date_addtaxa_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic corss walk from AvesData>  <output directory>```
 
@@ -132,10 +134,10 @@ This dating aproach attempts to account for uncertainty in two ways -
 The output directory with contain:
     * full_dates_citations.txt <- a file containing the citations for all the studeis used in dating
     * dates_add_taxa/ <- a folder
-        - all_nodes
-        - 
-
-
+        - all_nodes.json <- a json file containing all the node dates for the tree
+        - dated_all_mean_dates_clements<i>.tre <- Dated tree using mean node age for each dated node. Toplogies are numbered 1-100.  Labels are Clements names. (a set with ott labels is created as well)
+        - dated_all_rand_dates_clements<i>.tre <- Dated tree using a randomly sampled node age for each dated node. Toplogies are numbered 1-100. Labels are Clements names. (a set with ott labels is created as well)
+        - A folder for each run, containing the files to run bladj, and the bladj output.
 
 I summarized these trees using RevBayes
 
