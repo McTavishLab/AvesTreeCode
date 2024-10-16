@@ -2,6 +2,8 @@
 
 This repo stores scripts used to process the outputs of an OpenTree custom synthesis run.
 
+Steps to reproduce the results found in [McTavish et al. 2024](https://www.biorxiv.org/content/10.1101/2024.05.20.595017v1) are shown here.
+
 
 ### Step 1:
 Download the raw custom synth data and taxonomy crosswalk data using
@@ -30,19 +32,31 @@ is the unpacked snacktavish_aves_81461_tmpl8uyqu1p.tar.gz
 
 For later steps I will use the paths to data in the AvesData repo as examples.
 
+### Python requirements
+Python requirements are listed in requirements.txt
+
+I recommend using a python virtual environment to avoid any conflicts, and installing the requrements there.
+
+$ virtualenv -p python3 venv-aves
+$ source venv-aves/bin/activate
+$ pip install -r requirements.txt
+
 ### Step 2: Takes custom synth output and prunes to taxa in Clements taxonony, relabels tips to Clements names.
 
-estimates (rough) dates for internal nodes, and writes iTOL annotation files.
+Estimates rough dates for internal nodes, and writes iTOL annotation files.
 
 Requires as inputs the mapping from OTT_ids to Clements names available at: 
-https://github.com/McTavishLab/OpenTreeCLO/blob/main/taxonomy_info/OTT_eBird_combined_taxonomy_2021.tsv
+https://github.com/McTavishLab/AvesData/blob/main/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv
 
 And the custom synth directory, untarred.
 To perfom custom synth see:
 https://opentreeoflife.github.io/CustomSynthesis/
 
+python process_custom_synth_birds.py \<Open Tree Synth directory\> \<Taxonomic crosswalk\> \<Name of output\>
+
+
 Example:
-process_custom_synth_birds.py ../AvesData/Tree_versions/Aves_1.2/OpenTreeSynth ../AvesData/Taxonomy_versions/Clements2023/OTT_crosswalk_2023.csv output_example
+python process_custom_synth_birds.py ../AvesData/Tree_versions/Aves_1.2/OpenTreeSynth ../AvesData/Taxonomy_versions/Clements2023/OTT_crosswalk_2023.csv output_example
 
 
 Output_example will contain:
@@ -108,10 +122,20 @@ This dating aproach attempts to account for uncertainty in two ways -
     * random node date sampling: For each node with dates we randomly select one of the available dates to cailbrate. If there is only one date for that node, it is used with probability 0.5.
 
 
+```python date_addtaxa_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic corss walk from AvesData>  <output directory>```
 
 ```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021```
 
 ```
+
+#### Outputs:
+The output directory with contain:
+    * full_dates_citations.txt <- a file containing the citations for all the studeis used in dating
+    * dates_add_taxa/ <- a folder
+        - all_nodes
+        - 
+
+
 
 I summarized these trees using RevBayes
 
