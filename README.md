@@ -126,7 +126,7 @@ More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/
 
 ```python date_addtaxa_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic corss walk from AvesData>  <output directory>```
 
-```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021```
+```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021
 
 ```
 
@@ -139,7 +139,9 @@ The output directory with contain:
         - dated_all_rand_dates_clements<i>.tre <- Dated tree using a randomly sampled node age for each dated node. Toplogies are numbered 1-100. Labels are Clements names. (a set with ott labels is created as well)
         - A folder for each run, containing the files to run bladj, and the bladj output.
 
-I summarized these trees using RevBayes
+
+I summarized these trees using RevBayes:
+
 
 ```
 $ echo "trees" > dated_treeset_2021/dated_rand_sample.tre ##Rev Bayes expects a header line, or you lose your first tree
