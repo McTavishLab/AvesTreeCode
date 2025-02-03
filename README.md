@@ -134,10 +134,10 @@ More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/
 The output directory with contain:
     * full_dates_citations.txt <- a file containing the citations for all the studeis used in dating
     * dates_add_taxa/ <- a folder
-        - all_nodes.json <- a json file containing all the node dates for the tree
-        - dated_all_mean_dates_clements<i>.tre <- Dated tree using mean node age for each dated node. Toplogies are numbered 1-100.  Labels are Clements names. (a set with ott labels is created as well)
-        - dated_all_rand_dates_clements<i>.tre <- Dated tree using a randomly sampled node age for each dated node. Toplogies are numbered 1-100. Labels are Clements names. (a set with ott labels is created as well)
-        - A folder for each run, containing the files to run bladj, and the bladj output.
+        - all_nodes.json <- a json file containing all the node dates for the tree  
+        - dated_all_mean_dates_clements\<i\>.tre <- Dated tree using mean node age for each dated node. Toplogies are numbered 1-100.  Labels are Clements names. (a set with ott labels is created as well)  
+        - dated_all_rand_dates_clements\<i\>.tre <- Dated tree using a randomly sampled node age for each dated node. Toplogies are numbered 1-100. Labels are Clements names. (a set with ott labels is created as well)  
+        - A folder for each run, containing the files to run bladj, and the bladj output.  
 
 
 I summarized these trees using RevBayes:
