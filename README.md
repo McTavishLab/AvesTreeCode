@@ -37,9 +37,9 @@ Python requirements are listed in requirements.txt
 
 I recommend using a python virtual environment to avoid any conflicts, and installing the requrements there.
 
-$ virtualenv -p python3 venv-aves
-$ source venv-aves/bin/activate
-$ pip install -r requirements.txt
+    $ virtualenv -p python3 venv-aves
+    $ source venv-aves/bin/activate
+    $ pip install -r requirements.txt
 
 ### Step 2: Takes custom synth output and prunes to taxa in Clements taxonony, relabels tips to Clements names.
 
@@ -52,11 +52,11 @@ And the custom synth directory, untarred.
 To perfom custom synth see:
 https://opentreeoflife.github.io/CustomSynthesis/
 
-python process_custom_synth_birds.py \<Open Tree Synth directory\> \<Taxonomic crosswalk\> \<Name of output\>
+```python process_custom_synth_birds.py \<Open Tree Synth directory\> \<Taxonomic crosswalk\> \<Name of output\>```
 
 
 Example:
-python process_custom_synth_birds.py ../AvesData/Tree_versions/Aves_1.2/OpenTreeSynth ../AvesData/Taxonomy_versions/Clements2023/OTT_crosswalk_2023.csv output_example
+```python process_custom_synth_birds.py ../AvesData/Tree_versions/Aves_1.2/OpenTreeSynth ../AvesData/Taxonomy_versions/Clements2023/OTT_crosswalk_2023.csv output_example```
 
 
 Output_example will contain:
