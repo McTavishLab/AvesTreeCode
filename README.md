@@ -124,7 +124,7 @@ This dating aproach attempts to account for uncertainty in two ways -
 More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/chronosynth/wiki/Chronosynth-methods-overview)
 
 
-```python date_addtaxa_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic corss walk from AvesData>  <output directory>```
+```python date_addtaxa_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic cross walk from AvesData>  <output directory>```
 
 ```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021
 
@@ -132,10 +132,10 @@ More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/
 
 #### Outputs:
 The output directory with contain:
-    * full_dates_citations.txt <- a file containing the citations for all the studeis used in dating
+    * full_dates_citations.txt <- a file containing the citations for all the studies used in dating
     * dates_add_taxa/ <- a folder
         - all_nodes.json <- a json file containing all the node dates for the tree  
-        - dated_all_mean_dates_clements\<i\>.tre <- Dated tree using mean node age for each dated node. Toplogies are numbered 1-100.  Labels are Clements names. (a set with ott labels is created as well)  
+        - dated_all_mean_dates_clements\<i\>.tre <- Dated tree using mean node age for each dated node. Topologies are numbered 1-100.  Labels are Clements names. (a set with ott labels is created as well)  
         - dated_all_rand_dates_clements\<i\>.tre <- Dated tree using a randomly sampled node age for each dated node. Toplogies are numbered 1-100. Labels are Clements names. (a set with ott labels is created as well)  
         - A folder for each run, containing the files to run bladj, and the bladj output.  
 
@@ -147,6 +147,6 @@ I summarized these trees using RevBayes:
 $ echo "trees" > dated_treeset_2021/dated_rand_sample.tre ##Rev Bayes expects a header line, or you lose your first tree
 $ cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_ott_labels_tree*.tre >> dated_treeset_2021/dated_rand_sample.tre
 $ rb
-> tt = readTreeTrace("dated_treeset_2021/dated_rand_sample.tre", "clock", burnin=0)
-> mcc_tree = mccTree(trace=tt, file="dated_treeset_2021/mcc.tre", positiveBranchLengths=TRUE)
+> tt = readTreeTrace("dated_rand_sample_clements.tre", "clock", burnin=0)
+> mcc_tree = mccTree(trace=tt, file="summary_dated_clements.nex", positiveBranchLengths=TRUE)
 ```
