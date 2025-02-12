@@ -124,9 +124,9 @@ This dating aproach attempts to account for uncertainty in two ways -
 More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/chronosynth/wiki/Chronosynth-methods-overview)
 
 
-```python date_addtaxa_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic cross walk from AvesData>  <output directory>```
+```python date_complete_treeset.py <Complete treeset file from step 3> <Labelled phylo only tree from step 2>  <Taxonomic cross walk from AvesData>  <output directory>```
 
-```python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021
+```python date_complete_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_2021
 
 ```
 

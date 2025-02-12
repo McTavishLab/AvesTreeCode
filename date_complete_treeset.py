@@ -13,7 +13,7 @@ from helpers import crosswalk_to_dict
 """
 Pass in set of complete trees with CLO labels
 
-python date_addtaxa_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_out
+python date_complete_treeset.py ../AvesData/Tree_versions/Aves_1.2/Clements2021/taxon_addition_treeset.tre ../AvesData/Tree_versions/Aves_1.2/Clements2021/phylo_only.tre  ../AvesData/Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  dated_treeset_out
 
 """
 
