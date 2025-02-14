@@ -31,8 +31,8 @@ mcc.is_rooted = True
 
 labelled_tree = dendropy.Tree.get(path=labelled_tree_file, schema = 'Newick')
 
-for tax in mcc.taxon_namespace:
-     tax.label = ott_id_map.get(tax.label, tax.label)
+#for tax in mcc.taxon_namespace:
+#     tax.label = ott_id_map.get(tax.label, tax.label)
 
 #
 
@@ -43,7 +43,7 @@ for node in labelled_tree:
         lab = node.label
     if node.taxon:
         lab = node.taxon.label
-    label_map[lab] = [leaf.taxon.label for leaf in node.leaf_iter()]
+    label_map[lab] = [clements_name_map.get(leaf.taxon.label, leaf.taxon.label) for leaf in node.leaf_iter()]
 
 
 for lab in label_map:

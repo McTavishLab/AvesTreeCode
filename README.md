@@ -153,6 +153,8 @@ $ rb
 
 This summary tree does not include the internal node labels from the phylogeny that we use to track citations.
 
-We re-apply them using:
+We re-apply internal node labels using a script that takes them from the phylogeny tree and applies them to the summary tree:
 
-```python relabel_mcc_nodes.py summary_dated_clements_mcc.nex phylo_only.tre ../../../Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  summary_dated_clements.nex
+```
+python relabel_mcc_nodes.py summary_dated_clements_mcc.nex phylo_only.tre ../../../Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  summary_dated_clements.nex
+```
