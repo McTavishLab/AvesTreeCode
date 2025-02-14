@@ -148,5 +148,11 @@ $ echo "trees" > dated_treeset_2021/dated_rand_sample.tre ##Rev Bayes expects a 
 $ cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_ott_labels_tree*.tre >> dated_treeset_2021/dated_rand_sample.tre
 $ rb
 > tt = readTreeTrace("dated_rand_sample_clements.tre", "clock", burnin=0)
-> mcc_tree = mccTree(trace=tt, file="summary_dated_clements.nex", positiveBranchLengths=TRUE)
+> mcc_tree = mccTree(trace=tt, file="mcc_dated_clements.nex", positiveBranchLengths=TRUE)
 ```
+
+This summary tree does not include the internal node labels from the phylogeny that we use to track citations.
+
+We re-apply them using:
+
+```python relabel_mcc_nodes.py summary_dated_clements_mcc.nex phylo_only.tre ../../../Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  summary_dated_clements.nex
