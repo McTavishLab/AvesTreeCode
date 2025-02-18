@@ -31,10 +31,6 @@ mcc.is_rooted = True
 
 labelled_tree = dendropy.Tree.get(path=labelled_tree_file, schema = 'Newick')
 
-#for tax in mcc.taxon_namespace:
-#     tax.label = ott_id_map.get(tax.label, tax.label)
-
-#
 
 label_map = {}
 for node in labelled_tree:
