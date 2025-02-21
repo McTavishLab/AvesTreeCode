@@ -132,6 +132,7 @@ More information on Chronosynth at the [wiki](https://github.com/OpenTreeOfLife/
 
 #### Outputs:
 The output directory with contain:
+
     * full_dates_citations.txt <- a file containing the citations for all the studies used in dating
     * dates_add_taxa/ <- a folder
         - all_nodes.json <- a json file containing all the node dates for the tree  
@@ -144,8 +145,8 @@ I summarized these trees using RevBayes:
 
 
 ```
-$ echo "trees" > dated_treeset_2021/dated_rand_sample.tre ##Rev Bayes expects a header line, or you lose your first tree
-$ cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_ott_labels_tree*.tre >> dated_treeset_2021/dated_rand_sample.tre
+$ echo "trees" > dated_treeset_2021/dated_rand_sample_clements.tre ##Rev Bayes expects a header line, or you lose your first tree
+$ cat dated_treeset_2021/dates_add_taxa/dated_rand_all_dates_clements_labels_tree*.tre >> dated_treeset_2021/dated_rand_sample_clements.tre
 $ rb
 > tt = readTreeTrace("dated_rand_sample_clements.tre", "clock", burnin=0)
 > mcc_tree = mccTree(trace=tt, file="mcc_dated_clements.nex", positiveBranchLengths=TRUE)
@@ -156,5 +157,5 @@ This summary tree does not include the internal node labels from the phylogeny t
 We re-apply internal node labels using a script that takes them from the phylogeny tree and applies them to the summary tree:
 
 ```
-python relabel_mcc_nodes.py summary_dated_clements_mcc.nex phylo_only.tre ../../../Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  summary_dated_clements.nex
+python relabel_MCC_nodes.py mcc_dated_clements.nex phylo_only.tre ../../../Taxonomy_versions/Clements2021/OTT_crosswalk_2021.csv  summary_dated_clements.nex
 ```
